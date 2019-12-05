@@ -1,0 +1,18 @@
+.bom_homepage {
+    background-image: url('https://www7.mississauga.ca/documents/miway/transitway/Mississauga-Transitway_City-Centre-Transit-Terminal_002_1200x424.jpg');
+    background-size: 100% 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.bom_title {
+    font-size: 64px;
+}
+
+.bom_home_intro {
+    flex-direction: column;
+    padding: 0 50px;
+    text-align: center;
+    color: white;
+    height: 100%;
+}

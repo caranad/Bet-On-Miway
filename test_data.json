@@ -1,0 +1,34 @@
+[
+    {
+        "bus": "107",
+        "stop": "9970",
+        "trip_id": "18719639",
+        "dep_hour": 20,
+        "dep_minute": 59,
+        "direction": "Northbound"
+    },
+    {
+        "bus": "107",
+        "stop": "2968",
+        "trip_id": "18719639",
+        "dep_hour": 21,
+        "dep_minute": 6,
+        "direction": "Northbound"
+    },
+    {
+        "bus": "110",
+        "stop": "1406",
+        "trip_id": "18719489",
+        "dep_hour": 20,
+        "dep_minute": 47,
+        "direction": "Northbound"
+    },
+    {
+        "bus": "66",
+        "stop": "3192",
+        "trip_id": "18719850",
+        "dep_hour": 20,
+        "dep_minute": 16,
+        "direction": "Northbound"
+    }
+]

@@ -1,0 +1,22 @@
+.bom_login {
+    height: 100%;
+}
+
+.bom_login_box {
+    width: 400px;
+    background-color: #d7d7d7;
+    padding: 0 10px;
+    flex-direction: column;
+}
+
+.bom_login_box label {
+    display: block;
+}
+
+.bom_login_box form {
+    width: 100%;
+}
+
+.bom_login_box form section {
+    margin-bottom: 10px;
+}

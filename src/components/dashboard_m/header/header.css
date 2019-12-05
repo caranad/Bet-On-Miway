@@ -1,0 +1,18 @@
+.dashboard_header ul {
+    margin: 0;
+    background-color: blue;
+    padding: 10px;
+    text-align: right;
+}
+
+.dashboard_header ul li {
+    padding: 0;
+    list-style-type: none;
+    display: inline;
+    margin-left: 10px;
+}
+
+.dashboard_header ul li a {
+    color: white;
+    text-decoration: none;
+}

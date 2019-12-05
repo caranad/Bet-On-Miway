@@ -1,0 +1,10 @@
+.user_profile_info {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.user_pic img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+}

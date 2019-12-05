@@ -1,0 +1,15 @@
+BACKEND TODO
+
+STEPS TO BET
+-> User must enter the route they want to bet on (e.g. 107 North)
+-> User must pick which stop # (e.g. 2198, which stops at 5:07 PM)
+-> User must specify amount (e.g. 100 points)
+
+HAVE TO 
+-> Parse stop data (stop_id, stop_name)
+-> Parse bus data (bus_number, bus_route)
+
+SERVER WILL
+-> Find your bus, and when specifically it will stop at your designated bus stop
+-> If the delay tag exists, then payout; else, no payout 
+-> Update your new monetary value
