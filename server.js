@@ -13,11 +13,6 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(bodyparser.json());
-app.use(session({
-    saveUninitialized: false,
-    secret: 'none',
-    resave: true
-}));
 app.use(cors());
 
 var requestSettings = {
@@ -26,12 +21,10 @@ var requestSettings = {
     encoding: null
 };
 
-app.get('/trackBets', (req, res) => {
+app.get('/trackBets/:username', (req, res) => {
     res.header("Content-Type",'application/json');
 
-    console.log(req.session.username);
-
-    db.bets.find({ user_id: req.session.username }).then((data) => {
+    db.bets.find({ user_id: req.params.username }).then((data) => {
         if (data.length === 0) {
             res.send("Nothing");
         }
@@ -100,9 +93,9 @@ app.get('/trackBets', (req, res) => {
 
                                     if (stop_info[i].late) {
                                         const amount = stop_info[i].amount;
-                                        db.users.find({ username: req.session.username }).then((data) => {
+                                        db.users.find({ username: req.params.username }).then((data) => {
                                             const newAmount = data[0].money;
-                                            db.users.updateOne({ username: req.session.username }, { money: (amount + newAmount) }).then((data) => {})
+                                            db.users.updateOne({ username: req.params.username }, { money: (amount + newAmount) }).then((data) => {})
                                         })
                                     }
 
@@ -130,7 +123,7 @@ app.get('/trackBets', (req, res) => {
 
 app.post('/bet', (req, res) => {
     db.bets.find({ 
-        user_id: req.session.username, 
+        user_id: req.body.username, 
         bus_id: req.body.bet.bus_id, 
         direction: req.body.bet.direction, 
         stop_id: req.body.bet.stop_id
@@ -207,13 +200,16 @@ app.post('/login', (req, res) => {
 
     db.users.find({ username: username, password: password }).then((data) => {
         if (data.length === 1 && data[0].username === username && data[0].password === password) {
-            req.session.username = data[0].username;
-            res.send({ status: true });
+            res.send({ status: true, username: data[0].username });
         }
         else {
-            res.send({ status: false });
+            res.send({ status: false, username: undefined });
         }
     })
+})
+
+app.get('/logout', (req, res) => {
+    res.status(200).send("Logout");
 })
 
 app.listen(PORT, () => {

@@ -14,6 +14,7 @@ class LoginContainer extends Component {
 
         axios.post("http://localhost:3001/login", { username: data.username, password: data.password }).then((response) => {
             if (response.data.status) {
+                sessionStorage.setItem("username", response.data.username);
                 this.props.history.push('/dashboard');
             }
             else {

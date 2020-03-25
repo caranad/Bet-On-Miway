@@ -25,7 +25,9 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:3001/bets/aranadic").then((response) => {
+        const username = sessionStorage.getItem("username");
+
+        axios.get("http://localhost:3001/bets/" + username).then((response) => {
             this.setState({
                 routes: response.data
             })
@@ -33,6 +35,8 @@ class Dashboard extends Component {
     }
 
     sendBet = (data) => {
+        data.username = sessionStorage.getItem("username");
+        
         axios.post("http://localhost:3001/bet", { bet: data }).then((response) => {
             if (response.data.err) {
                 alert(response.data.err)
@@ -49,7 +53,10 @@ class Dashboard extends Component {
     }
 
     logout = () => {
-        this.props.history.push('/login');
+        axios.get("http://localhost:3001/logout").then((response) => {
+            sessionStorage.setItem("username", undefined);
+            this.props.history.push('/login');
+        });
     }
 
     render() {
