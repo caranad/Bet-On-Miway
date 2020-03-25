@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost:27017/betonmiway");
 
+const user = new mongoose.Schema(
+    { name: String, username: String, password: String, money: Number },
+    { collection: 'users', versionKey: false }
+);
+
 const route = new mongoose.Schema(
     { route: Number, route_name: String},
     { collection: 'routes', versionKey: false}
@@ -26,6 +31,7 @@ const user_bets = new mongoose.Schema(
     { collection: 'bets', versionKey: false}
 );
 
+const users = mongoose.model('Users', user);
 const stops = mongoose.model('Stops', stop);
 const routes = mongoose.model('Routes', route);
 const trips = mongoose.model('Trips', trip);
@@ -33,6 +39,7 @@ const stop_times = mongoose.model('TripStops', stop_time);
 const bets = mongoose.model('Bets', user_bets);
 
 module.exports = {
+    users: users,
     stops: stops,
     routes: routes,
     trips: trips,

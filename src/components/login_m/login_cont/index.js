@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import Login from '../login_box'
+import axios from 'axios';
 import './login.css';
 
 class LoginContainer extends Component {
@@ -9,7 +10,16 @@ class LoginContainer extends Component {
     }
 
     doLogin = (data) => {
-        this.props.history.push('/dashboard');
+        //this.props.history.push('/dashboard');
+
+        axios.post("http://localhost:3001/login", { username: data.username, password: data.password }).then((response) => {
+            if (response.data.status) {
+                this.props.history.push('/dashboard');
+            }
+            else {
+                alert("Incorrect username or password");
+            }
+        })
     }
 
     render() {

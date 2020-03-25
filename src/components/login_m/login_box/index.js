@@ -12,8 +12,8 @@ export default class Login extends Component {
         event.preventDefault();
         
         const mockData = {
-            username: "aranadic",
-            password: "password"
+            username: event.target.username.value,
+            password: event.target.password.value
         }
         this.props.login(mockData)
     }

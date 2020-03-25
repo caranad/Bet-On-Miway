@@ -13,3 +13,8 @@ SERVER WILL
 -> Find your bus, and when specifically it will stop at your designated bus stop
 -> If the delay tag exists, then payout; else, no payout 
 -> Update your new monetary value
+
+NEXT STEPS
+-> Add users database + authentication
+-> Add models and controllers to server-side and front-end
+-> Refactor code

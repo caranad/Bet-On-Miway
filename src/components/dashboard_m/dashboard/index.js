@@ -19,7 +19,7 @@ class Dashboard extends Component {
 
         setInterval(() => {
             axios.get("http://localhost:3001/trackBets").then((response) => {
-                console.log(data);
+                console.log(response.data);
             })
         }, 60000)
     }

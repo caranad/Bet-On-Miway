@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyparser = require('body-parser');
+const session = require('express-session');
 const cors = require('cors');
 
 const db = require('./models/models');
@@ -12,6 +13,11 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(bodyparser.json());
+app.use(session({
+    saveUninitialized: false,
+    secret: 'none',
+    resave: true
+}));
 app.use(cors());
 
 var requestSettings = {
@@ -23,7 +29,9 @@ var requestSettings = {
 app.get('/trackBets', (req, res) => {
     res.header("Content-Type",'application/json');
 
-    db.bets.find({ user_id: "aranadic" }).then((data) => {
+    console.log(req.session.username);
+
+    db.bets.find({ user_id: req.session.username }).then((data) => {
         if (data.length === 0) {
             res.send("Nothing");
         }
@@ -57,9 +65,10 @@ app.get('/trackBets', (req, res) => {
                                     bus: data[i].bus_id,
                                     stop: data[i].stop_id,
                                     direction: data[i].direction,
+                                    amount: data[i].amount,
                                     trip_id: filteredSchedule[j].id,
-                                    dep_hour: new Date(parseInt(ss.departure.time) * 1000).getHours(),
-                                    dep_minute: new Date(parseInt(ss.departure.time) * 1000).getMinutes()
+                                    dep_hour: ss.departure ? new Date(parseInt(ss.departure.time) * 1000).getHours() : ss.arrival ? new Date(parseInt(ss.arrival.time) * 1000).getHours() : 0,
+                                    dep_minute: ss.departure ? new Date(parseInt(ss.departure.time) * 1000).getMinutes() : ss.arrival ? new Date(parseInt(ss.arrival.time) * 1000).getMinutes() : 0
                                 }
                                 
                                 stop_info.push(st);
@@ -90,8 +99,11 @@ app.get('/trackBets', (req, res) => {
                                     }
 
                                     if (stop_info[i].late) {
-                                        // TODO: Pay the user however much they bet
-                                        console.log("Pay out!");
+                                        const amount = stop_info[i].amount;
+                                        db.users.find({ username: req.session.username }).then((data) => {
+                                            const newAmount = data[0].money;
+                                            db.users.updateOne({ username: req.session.username }, { money: (amount + newAmount) }).then((data) => {})
+                                        })
                                     }
 
                                     // Remove bet from queue
@@ -118,7 +130,7 @@ app.get('/trackBets', (req, res) => {
 
 app.post('/bet', (req, res) => {
     db.bets.find({ 
-        user_id: "aranadic", 
+        user_id: req.session.username, 
         bus_id: req.body.bet.bus_id, 
         direction: req.body.bet.direction, 
         stop_id: req.body.bet.stop_id
@@ -189,8 +201,20 @@ app.get('/stops', (req, res) => {
     })
 })
 
-app.use(cors());
-app.use(bodyparser.json());
+app.post('/login', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    db.users.find({ username: username, password: password }).then((data) => {
+        if (data.length === 1 && data[0].username === username && data[0].password === password) {
+            req.session.username = data[0].username;
+            res.send({ status: true });
+        }
+        else {
+            res.send({ status: false });
+        }
+    })
+})
 
 app.listen(PORT, () => {
     console.log("Started server from PORT");

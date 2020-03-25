@@ -36,7 +36,7 @@ readInterface.on('line', (line) => {
 readInterface.on('close', () => {
     console.log("Completed: ");
 
-    for (let i = 200000; i < 250000; i++) {
+    for (let i = 0; i < 50000; i++) {
         stops.insertMany([push[i]], (err, data) => {
             console.log("Success: ", i);
         })
